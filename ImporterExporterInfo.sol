@@ -1,6 +1,14 @@
 pragma solidity ^0.4.0;
 
 
+// DATE: 
+// OK; we try to use http://solidity.readthedocs.io/en/latest/units-and-global-variables.html solving the date problem
+// Use kind of the logic behind transferdate and ready_to_transfer below... 
+
+// Also check out https://www.youtube.com/watch?v=xWKq86PWG0o&list=PLUMwusiHZZhpf8ItZBkR95ekkMGNKvuNR&index=2
+
+
+
 //import "https://github.com/pipermerriam/ethereum-datetime/blob/master/contracts/api.sol"
 //import "https://github.com/pipermerriam/ethereum-datetime/blob/master/contracts/DateTime.sol"
 import "http://github.com/pipermerriam/ethereum-datetime/contracts/DateTime.sol";
