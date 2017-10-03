@@ -1,14 +1,6 @@
 pragma solidity ^0.4.0;
 
 
-// DATE: 
-// OK; we try to use http://solidity.readthedocs.io/en/latest/units-and-global-variables.html solving the date problem
-// Use kind of the logic behind transferdate and ready_to_transfer below... 
-
-// Also check out https://www.youtube.com/watch?v=xWKq86PWG0o&list=PLUMwusiHZZhpf8ItZBkR95ekkMGNKvuNR&index=2
-
-
-
 //import "https://github.com/pipermerriam/ethereum-datetime/blob/master/contracts/api.sol"
 //import "https://github.com/pipermerriam/ethereum-datetime/blob/master/contracts/DateTime.sol"
 import "http://github.com/pipermerriam/ethereum-datetime/contracts/DateTime.sol";
@@ -27,6 +19,7 @@ contract TestContract {
   address public exporter_account;
   uint256 public payment_value;
 
+  address owner; 
   bool public leap; 
   
   uint16 public transferdate;
@@ -53,15 +46,40 @@ contract TestContract {
   
 
 
-  // WHy need this ?
+  
   function TestContract() {
+      // This is the constructor!
+      
+      // Now, because deploying a contract is a transaction,
+      // and msg.sender is the one doing that (spending ether on creating the contract)
+      // So here we save the address of the
+      owner = msg.sender;
   }
   
- function setTransferDate(uint16 _transdate) {
+  modifier onlyOwner {
+      // Only the owner can make modifications: modifications mean update setters after first setting basically
+      // Might be a bit special when the state is in the constructor though
+    if (msg.sender != owner) {
+       //Then we throw an exception
+         throw;
+     } 
+     //But if now, we go on and exceexception
+     //The underscore here, is just a placeholder for the functuion you want to modify (see example with sesetTransferDate below)
+     _;
+}
+  
+  
+ function setTransferDate(uint16 _transdate) onlyOwner {
     
     // Enter unix timestamp
     transferdate = _transdate;
+    
+    //Now this is logging msg.sender when changing the transferdate
+    Changed(msg.sender);
   }
+  
+  //Events are like writing logs to the blockchain
+  event Changed (address a);
   
   function setTransferDateReady(){
       // http://solidity.readthedocs.io/en/latest/units-and-global-variables.html
@@ -95,12 +113,13 @@ contract TestContract {
   function setDescription(string _description){
     description = _description;
   }
-
-  // In Remix IDE: enter address between double quotes and prefix with 0x
-  // Setter: "0x583031d1113ad414f02576bd6afabfb302140225"
-  function setImporterAccount(address _account){
+  
+  
+   function setImporterAccount(address _account){
     importer_account = _account;
   }
+  
+  
 
   function setExporterAccount(address _account){
     exporter_account = _account;
