@@ -1,9 +1,5 @@
----
-title: "A quick introduction to Machine Learning"
-date: 2017-09-27
----
+# Solidity Examples and Resources
 
-Hey there you beautiful ladies and gentlemen, señoras y señores, damen und herren, 女士们(們) 先生们(們 ! Hope you have a great day. I am now making a "series" of posts regarding Machine Learning. They will vary from the conceptual level, the low level technicalities, to contain inspiration to real-life applications. This will be the first one out, introducing the whole thing.
+* This link is pure code, however well written. Get understanding of new concepts as balances and transfering of ether, through a bank examples. Also good for understanding build in functions, units etc https://gist.github.com/bellaj/f04f1c2dc5e24dd753a22338519555ad
+* Bit related to the above, we have http://solidity.readthedocs.io/en/develop/units-and-global-variables.html. However the above is preferable, but could be used together.
 
-
-### Setting the stage - how are the buzzwords connected?
