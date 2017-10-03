@@ -20,16 +20,19 @@ pragma solidity ^0.4.0;
 
 //Following is an interface contract declaring the required functions and events to meet the ERC20 standard:
 // https://github.com/ethereum/EIPs/issues/20
-contract ERC20 {
+
+
+//The standard interface contract doesnt work... See here for debugg https://ethereum.stackexchange.com/questions/27664/this-contract-does-not-implement-all-functions-and-thus-cannot-be-published
+//contract ERC20 {
      //function totalSupply() constant returns (uint totalSupply);
-     function balanceOf(address _owner) constant returns (uint balance);
+     //function balanceOf(address _owner) constant returns (uint balance);
      //function transfer(address _to, uint _value) returns (bool success);
-     function transferFrom(address _from, address _to, uint _value) returns (bool success);
-     function approve(address _spender, uint _value) returns (bool success);
-     function allowance(address _owner, address _spender) constant returns (uint remaining);     // Returns the amount which _spender is still allowed to withdraw from _owner
-     event Transfer(address indexed _from, address indexed _to, uint _value);
-     event Approval(address indexed _owner, address indexed _spender, uint _value);
- }
+     //function transferFrom(address _from, address _to, uint _value) returns (bool success);
+     //function approve(address _spender, uint _value) returns (bool success);
+     //function allowance(address _owner, address _spender) constant returns (uint remaining);     // Returns the amount which _spender is still allowed to withdraw from _owner
+     //event Transfer(address indexed _from, address indexed _to, uint _value);
+     //event Approval(address indexed _owner, address indexed _spender, uint _value);
+// }
 
 contract ImporterExporterContract {
     
@@ -82,7 +85,11 @@ contract ImporterExporterContract {
       // 'constant' prevents function from editing state variables;
      // allows function to run locally/off blockchain
   function balanceOf(address _owner) constant returns (uint256 balance) {
+         // Dont quite get this to work.. 
+         // However get to use balance with a setter/getter, setting lol = _owner.balance;
          return balances[_owner];}
+  
+ 
 
   // Owner of account approves the transfer of an amount to another account
   mapping(address => mapping (address => uint256)) allowed;
@@ -165,7 +172,7 @@ contract ImporterExporterContract {
   
   
   // Returns the amount which _spender is still allowed to withdraw from _owner
-  function allowance(address _owner, address _spender) constant returns (uint256 remaining);
+  //function allowance(address _owner, address _spender) constant returns (uint256 remaining);
   
   // Triggered whenever approve(address _spender, uint256 _value) is called.
   event Approval(address indexed _owner, address indexed _spender, uint _value);
