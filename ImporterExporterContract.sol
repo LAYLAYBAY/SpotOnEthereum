@@ -1,6 +1,16 @@
 pragma solidity ^0.4.0;
 
 
+// TODO: get a proper working transfering function, that the exporter can use to transfering
+// to importer (owner). Now have functions deposit but maybe "<address>.transfer(uint256 amount):
+// send given amount of Wei to Address, throws on failure" should be introduced
+
+// The transfer should trigger the Depostmade. Should combine this with setPaymentValue
+// and ready_to_transfer and balances. An external, the insurer, should be able to see
+// if the payment was on time or not.
+
+// Now is a bit of a mess, make this clean and easy
+
 contract ImporterExporterContract {
     
 
@@ -11,15 +21,16 @@ contract ImporterExporterContract {
   string public description;
   // 'public' makes externally readable (not writeable) by users or contracts
 
-    
   address public importer_account;
   address public exporter_account;
-  uint256 public payment_value;
 
   address owner; 
 
   uint16 public transferdate;
   bool public ready_to_transfer;
+  
+  uint256 public payment_value;
+
   
   // dictionary that maps addresses to balances
   mapping (address => uint) private balances;
@@ -142,7 +153,6 @@ contract ImporterExporterContract {
   
   function setPaymentValue(uint256 _payment_value){
     payment_value = _payment_value;
-    2 ether == 2000 finney;
     Changed(msg.sender);
 
   }
@@ -161,12 +171,4 @@ contract ImporterExporterContract {
   }
   
   
-  
-  // Now we go into the transfering 
-  
-  
-  
-  
-  
-
 }
