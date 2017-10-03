@@ -16,35 +16,45 @@ pragma solidity ^0.4.0;
 // functions have executed on send and can fail
 
 // Now is a bit of a mess, make this clean and easy
+// Try to follow https://theethereum.wiki/w/index.php/ERC20_Token_Standard as much as possible!
+
+//Following is an interface contract declaring the required functions and events to meet the ERC20 standard:
+// https://github.com/ethereum/EIPs/issues/20
+contract ERC20 {
+     function totalSupply() constant returns (uint totalSupply);
+     function balanceOf(address _owner) constant returns (uint balance);
+     function transfer(address _to, uint _value) returns (bool success);
+     function transferFrom(address _from, address _to, uint _value) returns (bool success);
+     function approve(address _spender, uint _value) returns (bool success);
+     function allowance(address _owner, address _spender) constant returns (uint remaining);
+     event Transfer(address indexed _from, address indexed _to, uint _value);
+     event Approval(address indexed _owner, address indexed _spender, uint _value);
+ }
 
 contract ImporterExporterContract {
     
-
+  
   /////////////////////
   // Out getters!
   /////////////////////
+  
+  // can here put description of the contract
+  string public description; // 'public' makes externally readable (not writeable) by users or contracts
 
-  string public description;
-  // 'public' makes externally readable (not writeable) by users or contracts
-
+  // accounts
   address public importer_account;
   address public exporter_account;
-
   address public owner; 
-
-  uint16 public transferdate;
-  bool public ready_to_transfer;
   
-  uint256 public payment_value;
-
-   uint public lol;
-
-  // Balances for each account
-  mapping (address => uint) balances;   // dictionary that maps addresses to balances
-
- // What is the balance of a particular account?
- function balanceOf(address _owner) constant returns (uint256 balance) {
-         return balances[_owner];}
+   // This is the constructor!
+  function ImporterExporterContract() {
+      // Now, because deploying a contract is a transaction,
+      // and msg.sender is the one doing that (spending ether on creating the contract)
+      // So here we save the address of the owner
+      // msg provides details about the message that's sent to the contract
+      // msg.sender is contract caller (address of contract creator)
+      owner = msg.sender;
+  }
 
   // Names; just saving company names and country
   // setNames is a mapping from uint256 to Names (the struct below). 
@@ -57,17 +67,34 @@ contract ImporterExporterContract {
     string name_importer_company;
     string importer_country;
   }
-      // Owner of account approves the transfer of an amount to another account
-     mapping(address => mapping (address => uint256)) allowed;
+  
+  
+  // transferdate
+  uint16 public transferdate;
+  bool public ready_to_transfer;
+  
+  uint256 public payment_value;
+
+  // Balances for each account
+  mapping (address => uint) balances;   // dictionary that maps addresses to balances
+
+  // What is the balance of a particular account?
+      // 'constant' prevents function from editing state variables;
+     // allows function to run locally/off blockchain
+  function balanceOf(address _owner) constant returns (uint256 balance) {
+         return balances[_owner];}
+
+  // Owner of account approves the transfer of an amount to another account
+  mapping(address => mapping (address => uint256)) allowed;
      
      
-     // Send _value amount of tokens from address _from to address _to
-     // The transferFrom method is used for a withdraw workflow, allowing contracts to send
-     // tokens on your behalf, for example to "deposit" to a contract address and/or to charge
-     // fees in sub-currencies; the command should fail unless the _from account has
-     // deliberately authorized the sender of the message via some mechanism; we propose
-     // these standardized APIs for approval:
-     function transferFrom(
+  // Send _value amount of tokens from address _from to address _to
+  // The transferFrom method is used for a withdraw workflow, allowing contracts to send
+  // tokens on your behalf, for example to "deposit" to a contract address and/or to charge
+  // fees in sub-currencies; the command should fail unless the _from account has
+  // deliberately authorized the sender of the message via some mechanism; we propose
+  // these standardized APIs for approval:
+  function transferFrom(
          address _from,
          address _to,
          uint256 _amount
@@ -83,17 +110,9 @@ contract ImporterExporterContract {
          } else {
              return false;
          }
-     }
+   }
   
-  // This is the constructor!
-  function ImporterExporterContract() {
-      // Now, because deploying a contract is a transaction,
-      // and msg.sender is the one doing that (spending ether on creating the contract)
-      // So here we save the address of the owner
-      // msg provides details about the message that's sent to the contract
-      // msg.sender is contract caller (address of contract creator)
-      owner = msg.sender;
-  }
+ 
 
   // Securing that only the contract owner can make modifications, we can deploy onlyOwner
   modifier onlyOwner {
@@ -107,31 +126,10 @@ contract ImporterExporterContract {
      //The underscore here, is just a placeholder for the functuion you want to modify (see example with sesetTransferDate below)
      _;
     }
-    
-    function deposit() public returns (uint) {
-        // uint used for currency amount (there are no doubles
-        //  or floats) and for dates (in unix time)
-       
-        balances[msg.sender] += msg.value;
-        // no "this." or "self." required with state variable
-        // all values set to data type's initial value by default
 
-        DepositMade(msg.sender, msg.value); // fire event
-
-        return balances[msg.sender];
-    }
     
-    /// @notice Get balance
-    /// @return The balance of the user
-    // 'constant' prevents function from editing state variables;
-    // allows function to run locally/off blockchain
-    function balance() constant returns (uint) {
-        return balances[msg.sender];
-    }
-  
-    function setBalance() {
-        lol =  owner.balance;
-    }
+
+
     // Fallback function - Called if other functions don't match call or
     // sent ether without data
     // Typically, called when invalid data is sent
@@ -141,6 +139,13 @@ contract ImporterExporterContract {
         throw; // throw reverts state to before call
     }
     
+    
+    // Allow _spender to withdraw from your account, multiple times, up to the _value amount.
+    // If this function is called again it overwrites the current allowance with _value.
+    function approve(address _spender, uint256 _amount) returns (bool success) {
+         allowed[msg.sender][_spender] = _amount;
+         return true;
+     }
     
   /////////////////////
   // Out setters!
@@ -157,7 +162,9 @@ contract ImporterExporterContract {
   //Events are like writing logs to the blockchain. Publicize actions to external listeners
   event Changed (address a);
   
-  event DepositMade(address accountAddress, uint amount);
+  event Approval(address indexed _owner, address indexed _spender, uint _value);
+  
+  event Transfer(address indexed _from, address indexed _to, uint _value);
   
   function setTransferDateReady(){
       // http://solidity.readthedocs.io/en/latest/units-and-global-variables.html
