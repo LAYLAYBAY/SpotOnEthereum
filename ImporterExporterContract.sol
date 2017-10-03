@@ -9,6 +9,12 @@ pragma solidity ^0.4.0;
 // and ready_to_transfer and balances. An external, the insurer, should be able to see
 // if the payment was on time or not.
 
+// Hints: 
+// All addresses can be sent ether
+// owner.send(SOME_BALANCE); // returns false on failure
+// if (owner.send) {} // typically wrap in 'if', as contract addresses have
+// functions have executed on send and can fail
+
 // Now is a bit of a mess, make this clean and easy
 
 contract ImporterExporterContract {
@@ -24,14 +30,15 @@ contract ImporterExporterContract {
   address public importer_account;
   address public exporter_account;
 
-  address owner; 
+  address public owner; 
 
   uint16 public transferdate;
   bool public ready_to_transfer;
   
   uint256 public payment_value;
 
-  
+   uint public lol;
+
   // dictionary that maps addresses to balances
   mapping (address => uint) private balances;
   // "private" means that other contracts can't directly query balances
@@ -93,7 +100,9 @@ contract ImporterExporterContract {
         return balances[msg.sender];
     }
   
-  
+    function setBalance() {
+        lol =  owner.balance;
+    }
     // Fallback function - Called if other functions don't match call or
     // sent ether without data
     // Typically, called when invalid data is sent
