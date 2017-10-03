@@ -21,12 +21,12 @@ pragma solidity ^0.4.0;
 //Following is an interface contract declaring the required functions and events to meet the ERC20 standard:
 // https://github.com/ethereum/EIPs/issues/20
 contract ERC20 {
-     function totalSupply() constant returns (uint totalSupply);
+     //function totalSupply() constant returns (uint totalSupply);
      function balanceOf(address _owner) constant returns (uint balance);
-     function transfer(address _to, uint _value) returns (bool success);
+     //function transfer(address _to, uint _value) returns (bool success);
      function transferFrom(address _from, address _to, uint _value) returns (bool success);
      function approve(address _spender, uint _value) returns (bool success);
-     function allowance(address _owner, address _spender) constant returns (uint remaining);
+     function allowance(address _owner, address _spender) constant returns (uint remaining);     // Returns the amount which _spender is still allowed to withdraw from _owner
      event Transfer(address indexed _from, address indexed _to, uint _value);
      event Approval(address indexed _owner, address indexed _spender, uint _value);
  }
@@ -147,6 +147,7 @@ contract ImporterExporterContract {
          return true;
      }
     
+
   /////////////////////
   // Out setters!
   /////////////////////
@@ -160,10 +161,16 @@ contract ImporterExporterContract {
   }
   
   //Events are like writing logs to the blockchain. Publicize actions to external listeners
-  event Changed (address a);
+  event Changed(address a);
   
+  
+  // Returns the amount which _spender is still allowed to withdraw from _owner
+  function allowance(address _owner, address _spender) constant returns (uint256 remaining);
+  
+  // Triggered whenever approve(address _spender, uint256 _value) is called.
   event Approval(address indexed _owner, address indexed _spender, uint _value);
   
+  // Triggered when tokens are transferred.
   event Transfer(address indexed _from, address indexed _to, uint _value);
   
   function setTransferDateReady(){
