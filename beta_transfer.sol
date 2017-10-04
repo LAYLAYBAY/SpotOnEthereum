@@ -1,4 +1,4 @@
-// Good resource: https://www.youtube.com/watch?v=kOBet0BPKzg
+// from https://www.youtube.com/watch?v=kOBet0BPKzg
 
 pragma solidity ^0.4.11;
 
@@ -36,16 +36,42 @@ contract ExportTransfer {
             // Empty, so bought everything
             hasTransfered(msg.sender); 
             transferdate = now;
-            selfdestruct(owner);
         }
     }   
     
   event hasTransfered(address a);  
   
   
+  function transferToOwner(){
+      
+        if(msg.sender == owner) {
+        // could add &&  && wasTransferOnTime(), however why should we?
+         owner.send(this.balance);
+          
+      }
+  }
+  
+  
+  function kill() {
+      
+      // selfdestruct is useful when you are finished with a contract, because it 
+      // costs far less gas than just sending the balance with address.send(this.balance).
+     // In fact, the SUICIDE opcode uses negative gas because the operation frees 
+     // up space on the blockchain by clearing all of the contract's data.
+     
+     // However, data is lost.. Maybe not what we want if a third party 
+     // should want to see if the transfer was on time
+     
+      if(msg.sender == owner && wasTransferOnTime()) {
+        
+         selfdestruct(owner);
+          
+      }
+  }
+  
   function wasTransferOnTime() returns(bool){
 
-      if (transferDeadline > transferdate){
+      if (transferDeadline > transferdate && transferdate!=0){
           return true;}
           
      else{return false;}
@@ -61,6 +87,10 @@ contract ExportTransfer {
     
     function getTransferDeadline() constant returns (uint) {
         return transferDeadline;
+    }
+    
+    function getTransferDate() constant returns (uint) {
+        return transferdate;
     }
     
     function getNow() returns (uint) {
@@ -89,7 +119,7 @@ contract ExportTransfer {
 
 
 // Inheritance
-contract GiekExportTransfer is ExportTransfer(10, now + 10 minutes) {
+contract CompanyExportTransfer is ExportTransfer(10, now + 2 minutes) {
     
     function website() returns (string) {
         return "http://AbstractFuncAttack.com";
