@@ -1,4 +1,4 @@
-// from https://www.youtube.com/watch?v=kOBet0BPKzg
+// Good resource: https://www.youtube.com/watch?v=kOBet0BPKzg
 
 pragma solidity ^0.4.11;
 
@@ -59,19 +59,22 @@ contract ExportTransfer {
         //Useful scenario: sending directly to the contract wallet
     }
     
+    function getTransferDeadline() constant returns (uint) {
+        return transferDeadline;
+    }
+    
+    function getNow() returns (uint) {
+        return now;
+    }
     
     // Abstract function
     function website() returns (string); // needs to be implemented below in AbstractFuncAttack
     
 }
 
-// Interface
-interface Refundable {
-    function refund(uint numTickets) returns(bool);
-}
 
 
-interface ERC20 {
+//interface ERC20 {
      //function totalSupply() constant returns (uint totalSupply);
     // function balanceOf(address _owner) constant returns (uint balance);
      //function transfer(address _to, uint _value) returns (bool success);
@@ -82,7 +85,7 @@ interface ERC20 {
      //event Approval(address indexed _owner, address indexed _spender, uint _value);
      
      
- }
+// }
 
 
 // Inheritance
