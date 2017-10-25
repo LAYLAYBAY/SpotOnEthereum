@@ -1,4 +1,4 @@
-// from https://www.youtube.com/watch?v=kOBet0BPKzg
+// https://www.youtube.com/watch?v=kOBet0BPKzg
 
 pragma solidity ^0.4.11;
 
@@ -13,6 +13,7 @@ contract ExportTransfer {
     mapping (address => uint) public purchasers;
     uint transferDeadline;
     uint transferdate;
+    address public contractaddress;
     
     // Constructer
     function ExportTransfer(uint g, uint d) {
@@ -20,6 +21,14 @@ contract ExportTransfer {
         owner = msg.sender;
         goods = g;
         transferDeadline = d;
+    }
+    
+    function getContractAddress () returns(address){
+        return address(this);
+    }
+    
+    function setContractAddress () {
+        contractaddress = address(this);
     }
     
     function buyGoods(uint amount) payable {
