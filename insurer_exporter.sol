@@ -1,12 +1,14 @@
 pragma solidity ^0.4.11;
 
 
-// In order to buyTickets, need to put in x ether in the value box to the right
-
+import "github.com/herman-hellenes/SpotOnEthereum/blob/master/beta_transfer.sol";
+// dont get the import to work!
+import "github.com/ethereum/ens/contracts/ENS.sol";
+//this works! wierd
 contract InsureExport {
     
     address public owner;
-    address public importexportcontract;
+    address public importexportcontract; //0xec5bee2dbb67da8757091ad3d9526ba3ed2e2137
     
     
     // Constructer
