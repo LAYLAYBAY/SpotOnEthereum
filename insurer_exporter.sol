@@ -1,14 +1,36 @@
 pragma solidity ^0.4.11;
 
 
-import "github.com/herman-hellenes/SpotOnEthereum/blob/master/beta_transfer.sol";
-// dont get the import to work!
-import "github.com/ethereum/ens/contracts/ENS.sol";
-//this works! wierd
+// Importing
+
+import "./beta_transfer.sol"; // Require you have this file open in a tab in the browser
+
+// dont get this to work, would be nice though...
+// import "github.com/herman-hellenes/SpotOnEthereum/blob/master/beta_transfer.sol";
+
+// but this works! wierd, maybe some settings on my github?
+//import "github.com/ethereum/ens/contracts/ENS.sol";
+
 contract InsureExport {
     
+    // This contract is used by the insurer to load data from the exporter-importer contract
+    // First we aim to obtain information from that contract, especially the importer's 
+    // address. This we will further use to see this importer's previous contracts
+    // to make a rating model that determine an insurance premium for a new deadline
+    
+    // After this, next step is to make a contract between exporter and importer
+    // where the exporter agrees on the insurance premium and then sign the deal 
+    // However this could be done in a seperate contract if beneficial
+    
+    
     address public owner;
-    address public importexportcontract; //0xec5bee2dbb67da8757091ad3d9526ba3ed2e2137
+    // In order to accessing the other contract
+    CompanyExportTransfer export_import; 
+    // Here just tried to reference a single contract, and now works well
+    // However we want to have input of the importer's address, and from that 
+    // find the different contracts this importer is engaged in
+    address public importexportcontract; //0xdc544654fefd1a458eb24064a6c958b14e579154
+
     
     
     // Constructer
@@ -25,25 +47,20 @@ contract InsureExport {
         
     }
     
-    
-    function getImportAddress() returns(address){
+    function setContractConnection(){
+        // Here set the ExportTransfer object to the address we want 
+        export_import = CompanyExportTransfer(importexportcontract);
         
-        // Think this is spot on: https://ethereum.stackexchange.com/questions/20864/using-contract-from-another-contract
-        
-        //See https://ethereum.stackexchange.com/questions/15930/pushing-pulling-data-from-data-storage-contract
-        
-        
-        // Following is not working (web3 not in remix?) Would be great to do
-        //it this way though
-        //The index is 0 since this is the first global variable defined. 
-        //If you are not sure what index the variable is at, or its a more complex 
-        //type like a mapping or array, you can use http://live.ether.camp to 
-        //visually inspect the storage of the contract
-        //web3.eth.getStorageAt(address,0);
     }
     
     
-
+    // Same function as in the contract we communicate with (dont know if have to though)
+    function getTransferDeadline() constant returns (uint) {
+        //The compiler automatically creates getter functions for all public state variables.
+        uint deadline = export_import.transferDeadline();
+        return deadline;
+    }
     
+   
     
 }
