@@ -1,9 +1,8 @@
-// https://www.youtube.com/watch?v=kOBet0BPKzg
 
 pragma solidity ^0.4.11;
 
 
-// In order to buyTickets, need to put in x ether in the value box to the right
+// In order to buyGoods, need to put in x ether in the value box to the right
 
 contract ExportTransfer {
     
@@ -11,7 +10,7 @@ contract ExportTransfer {
     uint public goods;
     uint constant price = 1 ether;
     mapping (address => uint) public purchasers;
-    uint transferDeadline;
+    uint public transferDeadline;
     uint transferdate;
     address public contractaddress;
     
