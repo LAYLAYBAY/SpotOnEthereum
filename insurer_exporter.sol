@@ -27,15 +27,15 @@ contract InsureExport {
     address public owner; 
         
     // In order to accessing the other contract
-    CompanyExportTransfer export_import; 
+    ExportTransfer export_import; 
     // Here just tried to reference a single contract, and now works well
     // However we want to have input of the importer's address, and from that 
     // find the different contracts this importer is engaged in
     // The import-export contract address is 0x689F85526Da3fB9953D7733266B4cE1883e79609
     address public importexportcontract; 
 
-    
-    
+    string c;
+
     // Constructer
     function InsureExport() {
         
@@ -47,23 +47,64 @@ contract InsureExport {
         // in order for the insurer to look up the importer
         
         importexportcontract = _c;
-        
+
     }
     
     function setContractConnection(){
         // Here set the ExportTransfer object to the address we want 
-        export_import = CompanyExportTransfer(importexportcontract);
+        export_import = ExportTransfer(importexportcontract);
         
     }
     
+    function getIndustry() returns (string) {
+        
+        return bytes32ToString(export_import.industry());
+    }
     
-    // Same function as in the contract we communicate with (dont know if have to though)
+    
+    function getCountry() returns (string) {
+        return bytes32ToString(export_import.country());
+    }
+    
+    
+    function getExportImportOwner() returns (address) {
+        return export_import.owner();
+    }
+    
+
     function getTransferDeadline() constant returns (uint) {
         //The compiler automatically creates getter functions for all public state variables.
         uint deadline = export_import.transferDeadline();
         return deadline;
     }
     
-   
+    
+    function getWasTransferOnTime() returns (bool) {
+        return export_import.wasTransferOnTime();
+    }
+
+
+
+    function bytes32ToString(bytes32 x) constant returns (string) {
+        bytes memory bytesString = new bytes(32);
+        uint charCount = 0;
+        for (uint j = 0; j < 32; j++) {
+            byte char = byte(bytes32(uint(x) * 2 ** (8 * j)));
+            if (char != 0) {
+                bytesString[charCount] = char;
+                charCount++;
+            }
+        }
+        bytes memory bytesStringTrimmed = new bytes(charCount);
+        for (j = 0; j < charCount; j++) {
+            bytesStringTrimmed[j] = bytesString[j];
+        }
+        return string(bytesStringTrimmed);
+    }
+
+ 
     
 }
+
+
+
