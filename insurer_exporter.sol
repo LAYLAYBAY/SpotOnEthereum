@@ -22,14 +22,17 @@ contract InsureExport {
     // where the exporter agrees on the insurance premium and then sign the deal 
     // However this could be done in a seperate contract if beneficial
     
-    
-    address public owner;
+    // The owner of this contract is now the exporter, with 0x42d7ca171ebef46dcd0d7fff7c5dd16b926a48a3, which is on 
+    // the Ropsten testnet
+    address public owner; 
+        
     // In order to accessing the other contract
     CompanyExportTransfer export_import; 
     // Here just tried to reference a single contract, and now works well
     // However we want to have input of the importer's address, and from that 
     // find the different contracts this importer is engaged in
-    address public importexportcontract; //0xdc544654fefd1a458eb24064a6c958b14e579154
+    // The import-export contract address is 0x689F85526Da3fB9953D7733266B4cE1883e79609
+    address public importexportcontract; 
 
     
     
