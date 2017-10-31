@@ -6,10 +6,11 @@ contract ExportTransfer {
     address public contractaddress = address(this);
     address public owner;
     bytes32 public industry;
-    uint public country; //Use landcode
+    uint public country;
     uint public transferDeadline;
     uint public goods;
 
+    address public importer_address;
     address [] public purchasers_address;
     uint constant price = 1 ether;
     mapping (address => uint) public purchasers; 
@@ -24,12 +25,17 @@ contract ExportTransfer {
         wasTransferOnTime = false;
     }
     
+    function setImporter(address _importer)  {
+        importer_address = _importer;
+    }
+    
+    
     function setIndustry(string _industry)  {
         // Need to convert to bytes in order to call from other contract...
         industry = stringToBytes32(_industry) ;
     }
+    
     function setCountry(uint _country)  {
-        //Use landcode
         country = _country;
     }
     
