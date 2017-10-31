@@ -3,7 +3,7 @@ pragma solidity ^0.4.11;
 
 // Importing
 
-import "./beta_transfer.sol"; // Require you have this file open in a tab in the browser
+import "./beta_transfer1.sol"; // Require you have this file open in a tab in the browser
 
 // dont get this to work, would be nice though...
 // import "github.com/herman-hellenes/SpotOnEthereum/blob/master/beta_transfer.sol";
@@ -62,8 +62,8 @@ contract InsureExport {
     }
     
     
-    function getCountry() returns (string) {
-        return bytes32ToString(export_import.country());
+    function getCountry() returns (uint) {
+        return export_import.country();
     }
     
     
@@ -105,6 +105,3 @@ contract InsureExport {
  
     
 }
-
-
-
