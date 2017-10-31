@@ -6,7 +6,7 @@ contract ExportTransfer {
     address public contractaddress = address(this);
     address public owner;
     bytes32 public industry;
-    bytes32 public country;
+    uint public country; //Use landcode
     uint public transferDeadline;
     uint public goods;
 
@@ -28,8 +28,9 @@ contract ExportTransfer {
         // Need to convert to bytes in order to call from other contract...
         industry = stringToBytes32(_industry) ;
     }
-    function setCountry(string _country)  {
-        country = stringToBytes32(_country);
+    function setCountry(uint _country)  {
+        //Use landcode
+        country = _country;
     }
     
     function setTransferDeadline(uint _transferDeadline) {
@@ -96,4 +97,3 @@ contract ExportTransfer {
 
 
 }
-
