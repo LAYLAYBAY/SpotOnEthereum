@@ -71,6 +71,10 @@ contract InsureExport {
         return export_import.owner();
     }
     
+    function getImporter() returns (address) {
+        return export_import.importer_address();
+    }
+    
 
     function getTransferDeadline() constant returns (uint) {
         //The compiler automatically creates getter functions for all public state variables.
