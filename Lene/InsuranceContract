@@ -1,0 +1,84 @@
+pragma solidity ^0.4.11;
+
+
+
+contract InsuranceContract {
+    address public contractaddress = address(this);
+    address public owner;
+    uint public insurance;
+
+    address public importer_address;
+    address public exporter_address;
+    address public insurer_address;
+    
+    address [] public purchasers_address;
+    uint public price;
+    mapping (address => uint) public purchasers; 
+    uint transferdate;
+    bool public wasTransferOnTime;
+    
+
+    
+    // Constructer
+    function InsuranceContract() payable {
+        owner = msg.sender;
+        wasTransferOnTime = false;
+        importer_address = owner;
+    }
+    
+    
+    function setInsurer(address _insurer)  {
+         insurer_address = _insurer;
+    }
+     
+     
+    
+
+    function setInsurance(uint _insurance) {
+        // For example let input be 10 // goods == 0 && msg.sender == owner &&
+        if (insurance == 0 &&  msg.sender == owner) {
+
+             insurance = _insurance;
+        }
+    }
+    
+
+    // In order to buyGoods, need to put in x ether in the value box to the right
+    function buyInsurance(uint amount) payable {
+        
+        if (msg.value != (amount * price) || amount > insurance) {
+            throw;
+        }
+        
+        purchasers[msg.sender] += amount;
+        insurance -= amount;
+        purchasers_address.push(msg.sender); 
+        
+    }   
+    
+    event hasTransfered(address a);  
+  
+
+    function transferToInsurer(){
+      
+      
+        // could add &&  && wasTransferOnTime(), however why should we?
+         insurer_address.send(this.balance);
+
+    }
+  
+
+    function getTransferDate() constant returns (uint) {
+        return transferdate;
+    }
+ 
+    function stringToBytes32(string memory source) returns (bytes32 result) {
+    assembly {
+        
+        result := mload(add(source, 32))
+             }
+    }
+    
+
+
+}
