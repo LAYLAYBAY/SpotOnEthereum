@@ -14,7 +14,7 @@ contract ExportTransfer {
     address public exporter_address;
     
     address [] public purchasers_address;
-    uint constant price = 1 ether;
+    uint public price = 1 ether;
     mapping (address => uint) public purchasers; 
     uint transferdate;
     bool public wasTransferOnTime;
