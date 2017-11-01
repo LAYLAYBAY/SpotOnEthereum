@@ -11,6 +11,8 @@ contract ExportTransfer {
     uint public goods;
 
     address public importer_address;
+    address public exporter_address;
+    
     address [] public purchasers_address;
     uint constant price = 1 ether;
     mapping (address => uint) public purchasers; 
@@ -23,6 +25,7 @@ contract ExportTransfer {
     function ExportTransfer() payable {
         owner = msg.sender;
         wasTransferOnTime = false;
+        importer_address = owner;
     }
     
     function setIndustry(string _industry)  {
@@ -34,8 +37,8 @@ contract ExportTransfer {
         country = _country;
     }
     
-    function setImporter(address _importer)  {
-         importer_address = _importer;
+    function setExporter(address _exporter)  {
+         exporter_address = _exporter;
     }
      
      
@@ -79,11 +82,11 @@ contract ExportTransfer {
     event hasTransfered(address a);  
   
 
-    function transferToOwner(){
+    function transferToExporter(){
       
-        if(msg.sender == owner) {
+        if(msg.sender == exporter_address) {
         // could add &&  && wasTransferOnTime(), however why should we?
-         owner.send(this.balance);
+         exporter_address.send(this.balance);
           
         }
     }
