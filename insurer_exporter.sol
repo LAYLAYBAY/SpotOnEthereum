@@ -14,7 +14,7 @@ pragma solidity ^0.4.11;
 
 // Importing
 
-import "./beta.sol"; // Require you have this file open in a tab in the browser
+import "./beta11.sol"; // Require you have this file open in a tab in the browser
 
 // dont get this to work, would be nice though...
 // import "github.com/herman-hellenes/SpotOnEthereum/blob/master/beta_transfer.sol";
@@ -52,6 +52,11 @@ contract InsureExport {
 
     uint public importer_country;
     uint public old_contracts_on_time;
+    uint public ether_size_expimp;
+    
+    uint public insurance_subtraction;
+    uint public insurance_price;
+    
     // Constructer
     function InsureExport() {
         
@@ -77,6 +82,11 @@ contract InsureExport {
         return bytes32ToString(export_import.industry());
     }
     
+    function getExportImportPrice() returns (uint) {
+        ether_size_expimp = export_import.price();
+        return export_import.price();
+        
+    }
     
     function getCountry() returns (uint) {
         importer_country = export_import.country();
@@ -111,7 +121,7 @@ contract InsureExport {
 
 
     //////////////////////////////////////////////////////////////////////////////////////
-    // For getting payments from the past (old importers contracts)
+    // For getting if-transfered from the past (old importers contracts)
     //////////////////////////////////////////////////////////////////////////////////////
     function setOldImportExportContract(address _a, address _b){
         // Here the address of the old import-export contract is set, 
@@ -144,6 +154,21 @@ contract InsureExport {
 
 
 
+    //////////////////////////////////////////////////////////////////////////////////////
+    // Price model
+    //////////////////////////////////////////////////////////////////////////////////////
+    function calculateInsurancePrice() {
+        // calculate and finally set insurance_price var
+        
+        // Cant yet do float division in Solidity, so make a very simple discrete model 
+        uint country_price;
+        if (importer_country > 100 ) {
+            country_price = 100 finney;
+            } else{country_price = 0 finney;}
+        
+        insurance_subtraction= 200 finney + old_contracts_on_time*100 finney - country_price;
+        insurance_price = ether_size_expimp - insurance_subtraction;
+    }
 
 
 
@@ -168,5 +193,4 @@ contract InsureExport {
  
     
 }
-
 
