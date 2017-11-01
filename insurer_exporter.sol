@@ -1,9 +1,20 @@
+// __author__ = "Herman Hellenes"
+// __copyright__ = "Copyright 2017, EY FSO EMEIA"
+// __credits__ = ["Herman Hellenes"]
+// __license__ = "EY"
+// __version__ = "1.0"
+// __maintainer__ = "Herman Hellenes"
+// __email__ = "herman.a.hellenes@no.ey.com"
+// __creation__ = "20/10/2017"
+// __status__ = "Production"
+
+
 pragma solidity ^0.4.11;
 
 
 // Importing
 
-import "./beta_transfer.sol"; // Require you have this file open in a tab in the browser
+import "./beta.sol"; // Require you have this file open in a tab in the browser
 
 // dont get this to work, would be nice though...
 // import "github.com/herman-hellenes/SpotOnEthereum/blob/master/beta_transfer.sol";
@@ -28,12 +39,15 @@ contract InsureExport {
         
     // In order to accessing the other contract
     ExportTransfer export_import; 
+    ExportTransfer export_import_old_A;
+    ExportTransfer export_import_old_B;
     // Here just tried to reference a single contract, and now works well
     // However we want to have input of the importer's address, and from that 
     // find the different contracts this importer is engaged in
     // The import-export contract address is 0x689F85526Da3fB9953D7733266B4cE1883e79609
     address public importexportcontract; 
-
+    address public import_exportcontract_Old_A; 
+    address public import_exportcontract_Old_B; 
     string c;
 
     // Constructer
@@ -88,6 +102,35 @@ contract InsureExport {
     function getWasTransferOnTime() returns (bool) {
         return export_import.wasTransferOnTime();
     }
+
+
+
+
+    //////////////////////////////////////////////////////////////////////////////////////
+    // For getting payments from the past (old importers contracts)
+    //////////////////////////////////////////////////////////////////////////////////////
+    function setImportExportContract(address _a, address _b){
+        // Here the address of the old import-export contract is set, 
+        import_exportcontract_Old_A = _a;
+        import_exportcontract_Old_B = _b;
+
+    }
+    
+    function setOldContractConnections(){
+        // Here set the ExportTransfer object to the address we want 
+        export_import_old_A = ExportTransfer(import_exportcontract_Old_A);
+        export_import_old_B = ExportTransfer(import_exportcontract_Old_B);
+    }
+
+
+    CONT HERE: FIND IF OLD TRANSACTIONS WERE ON TIME
+    function getWasTransferOnTime() returns (bool) {
+        return export_import.wasTransferOnTime();
+    }
+
+
+
+
 
 
 
