@@ -67,16 +67,11 @@ contract InsureExport {
     function InsureExport() {
         
         owner = msg.sender;
+        num_insurances = 1;
     }
     
     
-    function setNumInsurance(uint _num_ins) {
-
-             num_insurances = _num_ins;
-        
-    }
-    
-    // In order to buyInsurance, need to put in x ether in the value box to the right
+     // In order to buyInsurance, need to put in x ether in the value box to the right
     function buyInsurance(uint amount) payable {
         
         if (msg.value != (amount * insurance_price) || amount > num_insurances) {
@@ -108,42 +103,12 @@ contract InsureExport {
         // in order for the insurer to look up the importer
         
         importexportcontract = _c;
+        // Here set the ExportTransfer object to the address we want 
+        export_import = ExportTransfer(importexportcontract);
 
     }
     
-    function setContractConnection(){
-        // Here set the ExportTransfer object to the address we want 
-        export_import = ExportTransfer(importexportcontract);
-        
-    }
-    
-    function getIndustry() returns (string) {
-        
-        return bytes32ToString(export_import.industry());
-    }
-    
-    function getExportImportPrice() returns (uint) {
-        ether_size_expimp = export_import.price();
-        return export_import.price();
-        
-    }
-    
-    function getCountry() returns (uint) {
-        importer_country = export_import.country();
-        return export_import.country();
-    }
-    
-   
-    function getExportImportOwner() constant returns (address) {
-        address exportowner = export_import.owner();
-        return exportowner;
-    }
-    
-    function getImporterAddress() constant returns (address) {
-        address importeraddress = export_import.importer_address();
-        return importeraddress;
-    }
-    
+
 
     function getTransferDeadline() constant returns (uint) {
         //The compiler automatically creates getter functions for all public state variables.
@@ -167,14 +132,14 @@ contract InsureExport {
         // Here the address of the old import-export contract is set, 
         import_exportcontract_Old_A = _a;
         import_exportcontract_Old_B = _b;
-
-    }
-    
-    function setOldContractConnections(){
+        
         // Here set the ExportTransfer object to the address we want 
         export_import_old_A = ExportTransfer(import_exportcontract_Old_A);
         export_import_old_B = ExportTransfer(import_exportcontract_Old_B);
+
     }
+    
+
 
 
    
@@ -205,6 +170,9 @@ contract InsureExport {
         if (importer_country > 100 ) {
             country_price = 100 finney;
             } else{country_price = 0 finney;}
+            
+        ether_size_expimp = export_import.price();
+        importer_country = export_import.country();
         
         insurance_subtraction= 200 finney + old_contracts_on_time*100 finney - country_price;
         insurance_price = ether_size_expimp - insurance_subtraction;
@@ -212,23 +180,6 @@ contract InsureExport {
 
 
 
-
-    function bytes32ToString(bytes32 x) constant returns (string) {
-        bytes memory bytesString = new bytes(32);
-        uint charCount = 0;
-        for (uint j = 0; j < 32; j++) {
-            byte char = byte(bytes32(uint(x) * 2 ** (8 * j)));
-            if (char != 0) {
-                bytesString[charCount] = char;
-                charCount++;
-            }
-        }
-        bytes memory bytesStringTrimmed = new bytes(charCount);
-        for (j = 0; j < charCount; j++) {
-            bytesStringTrimmed[j] = bytesString[j];
-        }
-        return string(bytesStringTrimmed);
-    }
 
  
     
