@@ -14,7 +14,7 @@ pragma solidity ^0.4.11;
 
 // Importing
 
-import "./beta11.sol"; // Require you have this file open in a tab in the browser
+import "./beta3.sol"; // Require you have this file open in a tab in the browser
 
 // dont get this to work, would be nice though...
 // import "github.com/herman-hellenes/SpotOnEthereum/blob/master/beta_transfer.sol";
