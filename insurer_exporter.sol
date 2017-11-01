@@ -68,6 +68,7 @@ contract InsureExport {
         
         owner = msg.sender;
         num_insurances = 1;
+        insurer_address = 0x81fB3c851C428167C1649d7e402d6385236a788D;
     }
     
     
