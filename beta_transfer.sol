@@ -84,11 +84,10 @@ contract ExportTransfer {
 
     function transferToExporter(){
       
-        if(msg.sender == exporter_address) {
+      
         // could add &&  && wasTransferOnTime(), however why should we?
          exporter_address.send(this.balance);
-          
-        }
+
     }
   
 
