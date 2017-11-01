@@ -50,6 +50,8 @@ contract InsureExport {
     address public import_exportcontract_Old_B; 
     string c;
 
+    uint public importer_country;
+    uint public old_contracts_on_time;
     // Constructer
     function InsureExport() {
         
@@ -77,6 +79,7 @@ contract InsureExport {
     
     
     function getCountry() returns (uint) {
+        importer_country = export_import.country();
         return export_import.country();
     }
     
@@ -100,7 +103,8 @@ contract InsureExport {
     
     
     function getWasTransferOnTime() returns (bool) {
-        return export_import.wasTransferOnTime();
+        bool wasontime = export_import.wasTransferOnTime();
+        return wasontime;
     }
 
 
@@ -134,7 +138,7 @@ contract InsureExport {
         uint on_time_A_int = on_time_A ? 1 : 0;
         uint on_time_B_int = on_time_B ? 1 : 0;
         uint sum_A_B = on_time_A_int + on_time_B_int;
-        
+        old_contracts_on_time = sum_A_B;
         return sum_A_B;
     }
 
