@@ -14,7 +14,7 @@ pragma solidity ^0.4.11;
 
 // Importing
 
-import "./beta3.sol"; // Require you have this file open in a tab in the browser
+import "./beta31.sol"; // Require you have this file open in a tab in the browser
 
 // dont get this to work, would be nice though...
 // import "github.com/herman-hellenes/SpotOnEthereum/blob/master/beta_transfer.sol";
@@ -69,6 +69,12 @@ contract InsureExport {
         owner = msg.sender;
     }
     
+    
+    function setNumInsurance(uint _num_ins) {
+
+             num_insurances = _num_ins;
+        
+    }
     
     // In order to buyInsurance, need to put in x ether in the value box to the right
     function buyInsurance(uint amount) payable {
