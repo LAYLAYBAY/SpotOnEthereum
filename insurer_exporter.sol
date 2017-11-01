@@ -57,11 +57,45 @@ contract InsureExport {
     uint public insurance_subtraction;
     uint public insurance_price;
     
+    ///For paying the insurance price 
+    address public insurer_address;
+    address [] public insurance_purchaser_address;
+    mapping (address => uint) public insurance_purchaser; 
+    uint public num_insurances; //previously goods
+    
     // Constructer
     function InsureExport() {
         
         owner = msg.sender;
     }
+    
+    
+    // In order to buyInsurance, need to put in x ether in the value box to the right
+    function buyInsurance(uint amount) payable {
+        
+        if (msg.value != (amount * insurance_price) || amount > num_insurances) {
+            throw;
+        }
+        
+        insurance_purchaser[msg.sender] += amount;
+        num_insurances -= amount;
+        insurance_purchaser_address.push(msg.sender); 
+        
+        if (num_insurances == 0) {
+            // Empty, so bought everything
+            hasTransferedInsurancePayment(msg.sender); 
+
+        }
+    }
+    
+    event hasTransferedInsurancePayment(address a);  
+  
+
+    function transferToInsurer(){
+      
+         insurer_address.send(this.balance);
+    }
+    
     
     function setImportExportContract(address _c){
         // Here the address of the import-export contract is set, 
