@@ -109,7 +109,7 @@ contract InsureExport {
     //////////////////////////////////////////////////////////////////////////////////////
     // For getting payments from the past (old importers contracts)
     //////////////////////////////////////////////////////////////////////////////////////
-    function setImportExportContract(address _a, address _b){
+    function setOldImportExportContract(address _a, address _b){
         // Here the address of the old import-export contract is set, 
         import_exportcontract_Old_A = _a;
         import_exportcontract_Old_B = _b;
@@ -123,9 +123,19 @@ contract InsureExport {
     }
 
 
-    CONT HERE: FIND IF OLD TRANSACTIONS WERE ON TIME
-    function getWasTransferOnTime() returns (bool) {
-        return export_import.wasTransferOnTime();
+   
+    function getWasOldTransfersOnTime() returns (uint) {
+        // return 0 if none were  on  time 
+        // return 1 if one was on time 
+        // return 2 if both were on time 
+        bool on_time_A = export_import_old_A.wasTransferOnTime();
+        bool on_time_B = export_import_old_B.wasTransferOnTime();
+        
+        uint on_time_A_int = on_time_A ? 1 : 0;
+        uint on_time_B_int = on_time_B ? 1 : 0;
+        uint sum_A_B = on_time_A_int + on_time_B_int;
+        
+        return sum_A_B;
     }
 
 
