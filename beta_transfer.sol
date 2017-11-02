@@ -50,6 +50,11 @@ contract ExportTransfer {
     function setExporter(address _exporter)  {
          exporter_address = _exporter;
     }
+    
+    function setImporter(address _importer)  {
+         importer_address = _importer;
+    }
+     
      
      
     function setTransferDeadline(uint _transferDeadline) {
