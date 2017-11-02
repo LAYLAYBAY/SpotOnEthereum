@@ -1,3 +1,13 @@
+// __author__ = "Herman Hellenes"
+// __copyright__ = "Copyright 2017, EY FSO EMEIA"
+// __credits__ = ["Herman Hellenes"]
+// __license__ = "EY"
+// __version__ = "1.0"
+// __maintainer__ = "Herman Hellenes"
+// __email__ = "herman.a.hellenes@no.ey.com"
+// __creation__ = "20/10/2017"
+// __status__ = "Production"
+
 pragma solidity ^0.4.11;
 
 
