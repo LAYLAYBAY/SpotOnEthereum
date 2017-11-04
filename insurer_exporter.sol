@@ -14,13 +14,9 @@ pragma solidity ^0.4.11;
 
 // Importing
 
-import "./beta31.sol"; // Require you have this file open in a tab in the browser
+import "./beta.sol"; // Require you have this file open in a tab in the browser
 
-// dont get this to work, would be nice though...
-// import "github.com/herman-hellenes/SpotOnEthereum/blob/master/beta_transfer.sol";
 
-// but this works! wierd, maybe some settings on my github?
-//import "github.com/ethereum/ens/contracts/ENS.sol";
 
 contract InsureExport {
     
@@ -129,10 +125,10 @@ contract InsureExport {
     //////////////////////////////////////////////////////////////////////////////////////
     // For getting if-transfered from the past (old importers contracts)
     //////////////////////////////////////////////////////////////////////////////////////
-    function setOldImportExportContract(address _a, address _b){
+    function setOldImportExportContract(){
         // Here the address of the old import-export contract is set, 
-        import_exportcontract_Old_A = _a;
-        import_exportcontract_Old_B = _b;
+        import_exportcontract_Old_A = 0x6fb9bec7631a986340949416d42eedea4e23a6b6; //betalt
+        import_exportcontract_Old_B = 0xdbecAB25019608c1A508DA83450392aaBb537470; //misligholdt
         
         // Here set the ExportTransfer object to the address we want 
         export_import_old_A = ExportTransfer(import_exportcontract_Old_A);
